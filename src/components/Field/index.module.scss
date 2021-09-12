@@ -1,0 +1,9 @@
+.main {
+  width: 420px;
+  height: 840px;
+  display: flex;
+  flex-wrap: wrap;
+  border: 3px solid #000;
+  box-sizing: content-box;
+  flex-wrap: wrap-reverse;
+}
