@@ -126,11 +126,11 @@ export class GameScenario {
     await Promise.race([
       new Promise<void>((resolve) => {
         this.keyController.setListeners({
-          onArrowUpPress: () => {
+          onUp: () => {
             tetromino.rotateRight();
             this.draw();
           },
-          onArrowDownPress: () => {
+          onDown: () => {
             if (tetromino.isMovingDownPossible()) {
               tetromino.moveDown();
               this.draw();
@@ -138,11 +138,11 @@ export class GameScenario {
               resolve();
             }
           },
-          onArrowRightPress: () => {
+          onRight: () => {
             tetromino.moveRight();
             this.draw();
           },
-          onArrowLeftPress: () => {
+          onLeft: () => {
             tetromino.moveLeft();
             this.draw();
           },
