@@ -1,7 +1,7 @@
 import { Meta, Story } from '@storybook/react';
 import { range } from 'lodash';
-import { Cell } from 'src/components/Cell';
 import { Global } from 'src/components/Global';
+import { Cell } from '../Cell';
 import { Cell as FieldCell } from './components/Cell';
 import { Field as FieldView } from '.';
 

@@ -1,66 +1,65 @@
 import { makeAutoObservable } from 'mobx';
-import { colors } from 'src/components/Cell/constants';
-import { Size } from '../../types';
-import { BrickContext } from '../BrickContext';
-import { BrickHeap } from '../BrickHeap';
-import { Field } from '../Field';
-import { KeyController } from '../KeyController';
-import { TetrominoCreator } from '../TetrominoCreator';
+import { Button } from '../Button';
+import { states } from '../Button/constants';
+import { Counter } from '../Counter';
+import { Tetris } from '../Tetris';
 
 export class TetrisStore {
-  private _field = new Field(TetrisStore.fieldSize);
+  private tetris = new Tetris({
+    onRun: () => this._button.setState(states.pause),
+    onPause: () => this._button.setState(states.resume),
+    onClearRows: ({ numberOfRows }) => this._counter.incrementLines(numberOfRows),
+    onFinish: () => this._button.setState(states.play),
+  });
 
-  private brickContext = new BrickContext({ size: { width: 10, height: 20 } });
+  private _button = new Button({
+    onClick: () => {
+      if (this._button.state === states.pause) {
+        this.tetris.pause();
+      } else {
+        this.tetris.run();
+      }
+    },
+  });
 
-  private brickHeap = new BrickHeap({ brickContext: this.brickContext });
-
-  private tetrominoCreator = new TetrominoCreator({ brickContext: this.brickContext });
-
-  private keyController = new KeyController();
-
-  private static fieldSize: Size = { width: 10, height: 20 };
+  private _counter = new Counter();
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
-    console.log(this);
   }
 
   get field() {
-    return this._field;
+    return this.tetris.field;
   }
 
-  start() {
-    const tetromino = this.tetrominoCreator.createRandom();
-
-    this.keyController.startListening({
-      onArrowUpPress: () => {
-        tetromino.rotateRight();
-        this.draw();
-      },
-      onArrowDownPress: () => {
-        tetromino.moveDown();
-        this.draw();
-      },
-      onArrowRightPress: () => {
-        tetromino.moveRight();
-        this.draw();
-      },
-      onArrowLeftPress: () => {
-        tetromino.moveLeft();
-        this.draw();
-      },
-    });
+  get nextPiece() {
+    return this.tetris.nextPieceData;
   }
 
-  private draw() {
-    this.field.cells.forEach((cell) => {
-      if (this.brickContext.checkIfBrickAtPoint(cell.point)) {
-        const brick = this.brickContext.getBrickByPoint(cell.point);
-        cell.changeColor(brick.color);
-        return;
-      }
+  get button() {
+    return {
+      text: this.buttonText,
+      onClick: this._button.onClick,
+    };
+  }
 
-      cell.changeColor(colors.empty);
-    });
+  get scores() {
+    return this._counter.scores
+  }
+
+  get lines() {
+    return this._counter.numberOfLines;
+  }
+
+  private get buttonText() {
+    if (this._button.state === states.pause) {
+      return 'PAUSE';
+    }
+    
+    if (this._button.state === states.resume) {
+      return 'RESUME';
+    }
+
+    return 'PLAY';
   }
 }

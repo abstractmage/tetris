@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
-import { colors } from 'src/components/Cell/constants';
-import { Color } from 'src/components/Cell/types';
+import { colors } from '../../components/Cell/constants';
+import { Color } from '../../components/Cell/types';
 import { Point } from '../../types';
 import { Options } from './types';
 

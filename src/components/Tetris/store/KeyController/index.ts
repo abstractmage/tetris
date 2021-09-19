@@ -11,24 +11,25 @@ export class KeyController {
     this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
-  startListening(callbacks: {
+  setListeners(callbacks: {
     onArrowLeftPress: (() => void);
     onArrowRightPress: (() => void);
     onArrowUpPress: (() => void);
     onArrowDownPress: (() => void);
   }) {
-    this.stopListening();
-
     this.onArrowLeftPress = callbacks.onArrowLeftPress;
     this.onArrowRightPress = callbacks.onArrowRightPress;
     this.onArrowUpPress = callbacks.onArrowUpPress;
     this.onArrowDownPress = callbacks.onArrowDownPress;
+  }
 
+  startListening() {
+    this.stopListening();
     document.addEventListener('keydown', this.handleKeyPress)
   }
 
   stopListening() {
-    document.addEventListener('keydown', this.handleKeyPress);
+    document.removeEventListener('keydown', this.handleKeyPress);
   }
 
   private handleKeyPress(e: KeyboardEvent) {

@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
-import { types } from 'src/components/Tetromino/constants';
-import { Type } from 'src/components/Tetromino/types';
+import { types } from '../../components/Tetromino/constants';
+import { Type } from '../../components/Tetromino/types';
 import { Point } from '../../types';
 import { Brick } from '../Brick';
 import { BrickContext } from '../BrickContext';

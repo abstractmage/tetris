@@ -1,6 +1,8 @@
+import { groupBy, values } from 'lodash';
 import { makeAutoObservable } from 'mobx';
 import { Brick } from '../Brick';
 import { BrickContext } from '../BrickContext';
+import { Row } from '../Row';
 import { Options } from './types';
 
 export class BrickHeap {
@@ -23,6 +25,10 @@ export class BrickHeap {
     this.bricks = this.bricks.filter((brick) => !removingBricks.includes(brick));
   }
 
+  clear() {
+    this.bricks = [];
+  }
+
   getFilledRows() {
     if (!this.bricks.length) return [];
 
@@ -38,5 +44,20 @@ export class BrickHeap {
     }
 
     return filledRows;
+  }
+
+  moveToBottom() {
+    const rows = values(groupBy(this.bricks, 'point.y'))
+      .sort(([prev], [next]) => prev.point.y - next.point.y)
+      .map((bricks) => bricks.sort((prev, next) => prev.point.x - next.point.x))
+      .map((bricks) =>
+        new Row({ brickContext: this.brickContext, bricks: bricks }),
+      );
+
+    rows.forEach((row) => {
+      while (row.isMovingDownPossible()) {
+        row.moveDown();
+      }
+    });
   }
 }

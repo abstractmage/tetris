@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { Color } from 'src/components/Cell/types';
+import { Color } from '../../components/Cell/types';
 import { Point } from '../../types';
 import { Options } from './types';
 

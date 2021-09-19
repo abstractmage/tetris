@@ -1,4 +1,3 @@
-import { isEqual } from 'lodash';
 import { makeAutoObservable } from 'mobx';
 import { Point, Size } from '../../types';
 import { Brick } from '../Brick';
@@ -20,8 +19,8 @@ export class BrickContext {
     const halfWidth = this.size.width / 2;
     let x = 0;
 
-    if (halfWidth === Math.ceil(halfWidth)) x = halfWidth + 1;
-    else x = halfWidth;
+    if (halfWidth === Math.ceil(halfWidth)) x = halfWidth;
+    else x = Math.floor(halfWidth);
 
     return { x, y: this.size.height };
   }
@@ -34,12 +33,16 @@ export class BrickContext {
     this.bricks = this.bricks.filter((brick) => !removingBricks.includes(brick));
   }
 
+  clear() {
+    this.bricks = [];
+  }
+
   checkIfBrickAtPoint(point: Point) {
-    return !!this.bricks.find((brick) => isEqual(brick.point, point));
+    return !!this.bricks.find((brick) => brick.point.x === point.x && brick.point.y === point.y);
   }
 
   getBrickByPoint(point: Point) {
-    const brick = this.bricks.find((brick) => isEqual(brick.point, point)) || null;
+    const brick = this.bricks.find((brick) => brick.point.x === point.x && brick.point.y === point.y) || null;
 
     if (!brick) {
       throw new Error(`${this.constructor.name}.getBrickByPoint: no such brick exists`);

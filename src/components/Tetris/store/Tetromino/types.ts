@@ -1,5 +1,5 @@
-import { Color } from 'src/components/Cell/types';
-import { Type } from 'src/components/Tetromino/types';
+import { Color } from '../../components/Cell/types';
+import { Type } from '../../components/Tetromino/types';
 import { BrickContext } from '../BrickContext';
 
 export type Options = {

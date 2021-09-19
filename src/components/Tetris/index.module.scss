@@ -4,6 +4,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 0.1vh;
+
+  @media (max-aspect-ratio: 640 / 920) {
+    font-size: 0.144vw;
+  }
+}
+
+.fieldWrap {
+  margin-left: -190em;
+  width: 426em;
+  height: 846em;
 }
 
 .center {
@@ -12,16 +23,33 @@
   top: 50%;
 }
 
-.nextPieceBoxContainer {
+.column {
   position: absolute;
-  left: 260px;
-  bottom: 235px;
-  width: 150px;
-  height: 189px;
+  left: 160em;
+  top: -420em;
+  width: 150em;
+}
+
+.nextPieceBoxContainer {
+  width: 150em;
+  height: 189em;
+  margin-bottom: 20em;
 }
 
 .nextPieceBoxContainerInner {
   width: 100%;
   height: 100%;
   padding: 5%;
+}
+
+.buttonWrap {
+  margin-top: 20em;
+}
+
+.fieldText,
+.fieldValue {
+  font-size: 24em;
+  line-height: 1.25em;
+  font-weight: 700;
+  text-align: center;
 }
